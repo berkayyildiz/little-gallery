@@ -1,1 +1,86 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'styles/reset.css';
+
+:root {
+  --border-color: #dbdee1;
+  --bg-base: #dbdee1;
+  --bg-danger: rgb(237, 45, 45);
+  --bg-danger-dark: rgb(210, 31, 31);
+  --bg-primary: rgb(45, 115, 237);
+  --bg-primary-dark: rgb(31, 88, 210);
+  --bg-secondary: rgb(244, 241, 234);
+  --bg-secondary-dark: rgb(235, 232, 226);
+
+  --active-shadow: 0 0 0 0.2rem rgba(5, 100, 216, 0.496);
+}
+
+@font-face {
+  font-family: "Assistant";
+  src: url("assets/fonts/Assistant-VariableFont_wght.ttf") format("woff2 supports variations"),
+    url("assets/fonts/Assistant-VariableFont_wght.ttf") format("woff2-variations");
+  font-weight: 200 800;
+}
+
+body {
+  font-family: "Assistant";
+}
+
+.selectionjs-selection-area {
+  background: rgba(46, 115, 252, 0.11);
+  border: 2px solid rgba(98, 155, 255, 0.81);
+  border-radius: 0.1em;
+}
+
+.app-droppable {
+}
+
+.js-app-droppable--target {
+  box-shadow: var(--active-shadow);
+}
+.js-app-droppable--zone {
+  box-shadow: 0 0 0 0.2rem rgba(15, 205, 5, 0.461);
+}
+
+.app-draggable {
+}
+
+.button {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+
+  --bg-color: var(--bg-primary);
+  --text-color: white;
+
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  &:hover {
+    --bg-color: var(--bg-primary-dark);
+  }
+
+  &.danger {
+    --bg-color: var(--bg-danger);
+
+    &:hover {
+      --bg-color: var(--bg-danger-dark);
+    }
+  }
+
+  &.secondary {
+    --text-color: initial;
+    --bg-color: var(--bg-secondary);
+
+    &:hover {
+      --bg-color: var(--bg-secondary-dark);
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  cursor: pointer;
+}

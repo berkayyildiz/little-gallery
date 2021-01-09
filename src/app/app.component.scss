@@ -1,0 +1,177 @@
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  max-width: 70rem;
+  max-height: 80vh;
+  width: 95%;
+  height: 100%;
+
+  margin: auto;
+
+  border-radius: 0.25rem;
+  border-width: 1px;
+
+  display: grid;
+
+  grid-template-columns: 5fr minmax(15rem, 2fr);
+
+  .collections {
+    border-left-width: 1px;
+
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    .items {
+      display: grid;
+      padding: 1rem;
+      align-content: start;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: start;
+
+      .item {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        grid-template-columns: 100%;
+        gap: 0.25rem;
+
+        justify-content: center;
+        align-content: start;
+
+        .content {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+          gap: 1px;
+
+          border-radius: 0.25rem;
+          overflow: hidden;
+
+          width: 100%;
+          height: 100%;
+        }
+
+        .title {
+          padding: 0 0.125rem;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 100%;
+    .items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 4rem);
+      padding: 1px;
+      gap: 1px;
+      align-content: start;
+
+      &.drop-zone-active {
+        position: relative;
+        &:before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          content: " ";
+          box-shadow: inset var(--active-shadow);
+        }
+      }
+    }
+  }
+
+  // General
+
+  .image {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+
+    user-select: none;
+    pointer-events: none;
+
+    background-color: var(--bg-base);
+
+    img {
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    &.selected {
+      img {
+        filter: brightness(80%);
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        width: 1.75rem;
+        background-size: cover;
+        height: 1.75rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cscript xmlns=''/%3E%3Ctitle%3Eooui-checkbox-selected%3C/title%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Crect stroke='%2336C' fill='%2336C' x='3.5' y='3.5' width='13' height='13' rx='2'/%3E%3Cpath stroke='%23FFF' stroke-linecap='round' stroke-linejoin='round' d='M6 10.157L8.572 13 14 7'/%3E%3C/g%3E%3C/svg%3E");
+      }
+    }
+  }
+
+  .section-header {
+    padding: 0.5rem 1rem;
+    border-bottom-width: 1px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    max-width: 100%;
+    overflow: hidden;
+
+    height: 2.5rem;
+
+    .title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    .options {
+      flex-shrink: 0;
+      display: grid;
+      grid-auto-flow: column;
+      gap: 0.5rem;
+    }
+  }
+}
+
+[contenteditable="true"] {
+  cursor: text;
+  &:focus {
+    outline: none;
+  }
+
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+}

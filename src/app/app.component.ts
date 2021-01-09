@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CollectionService } from './services/collection.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'little-gallery';
+
+
+  constructor(
+    public readonly collectionService: CollectionService
+  ) {
+
+  }
+
+  onInit() {
+  }
 }

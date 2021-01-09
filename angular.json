@@ -31,9 +31,12 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/modern-normalize/modern-normalize.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/selectable.js/selectable.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,9 +97,12 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/modern-normalize/modern-normalize.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/selectable.js/selectable.min.js"
+            ]
           }
         },
         "lint": {
