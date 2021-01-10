@@ -77,8 +77,8 @@ export class CollectionService {
     return arr;
   }
 
-  addImageToCollection(image: Image, collection: Collection) {
-    const tmpImg = this.images.find(img => img.id == image.id);
+  addImageToCollection(imageId: string, collection: Collection) {
+    const tmpImg = this.images.find(img => img.id == imageId);
     tmpImg.collections.push(collection.id);
     window.localStorage.setItem("images", JSON.stringify(this.images));
 
@@ -107,8 +107,6 @@ export class CollectionService {
 
   addNewImages(files: File[]) {
     files.forEach(async file => {
-      console.log(file);
-
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -123,6 +121,11 @@ export class CollectionService {
       }
     })
 
+  }
+
+  deleteImage(id: string) {
+    this.images = this.images.filter(i => i.id != id);
+    this.openCollection(this.selectedCollection.value);
   }
 
   editSelectedCollectionTitle(title: string) {
@@ -143,7 +146,6 @@ export class CollectionService {
   deleteCollection(collection?: Collection) {
     collection = this.selectedCollection.value;
     this.selectedCollection.next(null);
-    console.log(collection);
     this.collections.next(this.collections.value.filter(c => c.id != collection.id));
     window.localStorage.setItem("collections", JSON.stringify(this.collections.value));
     this.dialogService.pushDialog({

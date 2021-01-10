@@ -83,6 +83,7 @@
               </div>
               <div class="dropdown-menu-split"></div>
               <div class="dropdown-menu-item"
+                   (click)="addSelectedItemsToCollection(collection)"
                    *ngFor="let collection of collectionService.collections | async">
                 {{collection.title}}
               </div>
@@ -101,12 +102,36 @@
          [class.on-selection]="isSelectionActive"
          (appDropZone)="collectionService.addNewImages($event)">
       <div class="item selectable"
+           [attr.data-image-id]="image.id"
            [appDraggable]="{data: image, zones: collectionService.collections | async | droppableCollections: image}"
            *ngFor="let image of collectionService.galleryImages | async">
         <div class="image">
           <img [src]="image.url"
                alt="">
         </div>
+      </div>
+      <!-- Welcome Info -->
+      <div class="welcome-info"
+           *ngIf="!((collectionService.galleryImages | async)?.length)">
+        <div class="item">
+          <img src="../assets/images/undraw_upload_87y9.svg">
+          <h4>Drag and Drop images to upload</h4>
+          <span>It seem like there is nothing here, drag and drop files to upload</span>
+        </div>
+
+      </div>
+    </div>
+    <div class="info-bar"
+         *ngIf="(collectionService.galleryImages | async)?.length">
+      <div class="item"
+           *ngIf="!isSelectionActive">
+        <img src="../assets/images/undraw_online_gallery_dmv3.svg">
+        <h4>Tip: Drag and drop images to add them to collections</h4>
+      </div>
+      <div class="item"
+           *ngIf="isSelectionActive">
+        <img src="../assets/images/undraw_images_aef7.svg">
+        <h4>Tip: Scan selection area to select multiple items in select mode</h4>
       </div>
     </div>
   </div>
@@ -155,7 +180,7 @@
            *ngFor="let collection of (collectionService.collections | async)">
         <div class="content"
              (click)="collectionService.openCollection(collection)"
-             (onDroppableComplete)="collectionService.addImageToCollection($event.data, collection)"
+             (onDroppableComplete)="collectionService.addImageToCollection(($event.data).id, collection)"
              [appDroppable]="{data: '', zone: collection.id}">
           <div class="image"
                *ngFor="let image of collectionService.firstFourImage(collection.id)">

@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import SelectionArea from '@simonwep/selection-js';
-import { CollectionService } from './services/collection.service';
+import { Collection, CollectionService, Image } from './services/collection.service';
 import { DialogService } from './services/dialog.service';
 
 @Component({
@@ -59,14 +59,23 @@ export class AppComponent implements OnInit {
 
 
   deleteSelectedElements() {
-    console.log(this.selectionArea.getSelection());
-
+    this.selectionArea.getSelection().forEach(item => {
+      this.collectionService.deleteImage(item.getAttribute("data-image-id"))
+    })
   }
 
   createCollection(title: string) {
     this.collectionService.addNewCollection(title);
     this.isCollectionAddDropdownOpen = false;
   }
+
+  addSelectedItemsToCollection(collection: Collection) {
+    this.selectionArea.getSelection().forEach(item => {
+      this.collectionService.addImageToCollection(item.getAttribute("data-image-id"), collection)
+    })
+    this.isAddToCollectionDropdownOpen = false;
+  }
+
 
 
   initSelection() {
