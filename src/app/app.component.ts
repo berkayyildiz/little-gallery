@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import SelectionArea from '@simonwep/selection-js';
 import { CollectionService } from './services/collection.service';
 
@@ -17,6 +18,11 @@ export class AppComponent implements OnInit {
 
   isAddToCollectionDropdownOpen = false;
 
+  isCollectionAddDropdownOpen = false;
+
+  isDeletingCollection = false;
+
+  collectionNameTitle = new FormControl();
 
   constructor(
     public readonly collectionService: CollectionService
@@ -36,6 +42,27 @@ export class AppComponent implements OnInit {
   clearSelection() {
     this.selectionArea.getSelection().forEach(el => el.classList.remove("selected"));
     this.selectionArea.clearSelection();
+  }
+
+
+  deleteSelectedElements() {
+    console.log(this.selectionArea.getSelection());
+
+  }
+
+  createCollection() {
+
+
+    if (this.collectionNameTitle.valid) {
+      this.collectionService.addNewCollection(this.collectionNameTitle.value);
+      this.collectionNameTitle.setValue("");
+      this.isAddToCollectionDropdownOpen = false;
+
+    } else {
+      this.collectionNameTitle.markAsDirty();
+      this.collectionNameTitle.markAsTouched();
+    }
+
   }
 
 

@@ -1,5 +1,6 @@
 <div class="container">
   <div class="gallery">
+    <!-- Gallery Header -->
     <div class="section-header">
       <h2 class="title">
         <i-bs [name]="(collectionService.selectedCollection | async) ? 'image' : 'images'"></i-bs>
@@ -16,7 +17,7 @@
         </button>
         <span class="divider"></span>
         <div class="popup"
-             (clickOutside)="isOptionsOpen = false"
+             (clickOutside)="isDeletingCollection ? null : isOptionsOpen = false"
              *ngIf="!isSelectionActive">
           <div class="popup-parent">
             <button class="button secondary"
@@ -27,14 +28,27 @@
           </div>
           <div class="popup-element bottom-right"
                *ngIf="isOptionsOpen">
-            <div class="dropdown-menu">
-              <div class="dropdown-menu-item">
-                Edit Name
-              </div>
-              <div class="dropdown-menu-split"></div>
-              <div class="dropdown-menu-item danger">
-                Delete Collection
-              </div>
+            <div class="dropdown-menu"
+                 style="width: 10rem;">
+              <ng-container *ngIf="!isDeletingCollection">
+                <div class="dropdown-menu-item">
+                  Edit Name
+                </div>
+                <div class="dropdown-menu-split"></div>
+                <div class="dropdown-menu-item danger"
+                     (click)="isDeletingCollection = true">
+                  Delete Collection
+                </div>
+              </ng-container>
+              <ng-container *ngIf="isDeletingCollection">
+                <div class="dropdown-menu-title">Are you sure to delete this collection?</div>
+                <div class="dropdown-menu-split"></div>
+                <div class="dropdown-menu-item danger"
+                     (click)="collectionService.deleteCollection(); isOptionsOpen = false; isDeletingCollection = false">
+                  Delete</div>
+                <div class="dropdown-menu-item"
+                     (click)="isDeletingCollection = false">Cancel</div>
+              </ng-container>
             </div>
           </div>
         </div>
@@ -63,12 +77,15 @@
           </div>
         </div>
         <button class="button danger"
+                (click)="deleteSelectedElements()"
                 *ngIf="isSelectionActive">
           <i-bs name="trash"></i-bs>
         </button>
       </div>
     </div>
+    <!-- Gallery Items -->
     <div class="items"
+         [class.on-selection]="isSelectionActive"
          (appDropZone)="collectionService.addNewImages($event)">
       <div class="item selectable"
            [appDraggable]="{data: image, zones: collectionService.collections | async | droppableCollections: image}"
@@ -86,10 +103,40 @@
         <i-bs name="folder"></i-bs> Collections
       </h2>
       <div class="options">
-        <button class="button"
-                (click)="collectionService.addNewCollection()">
-          <i-bs name="folder-plus"></i-bs>
-        </button>
+        <div class="popup"
+             (clickOutside)="isCollectionAddDropdownOpen = false">
+          <div class="popup-parent">
+            <button class="button"
+                    (click)="isCollectionAddDropdownOpen = !isCollectionAddDropdownOpen">
+              <i-bs name="folder-plus"></i-bs>
+            </button>
+          </div>
+          <div class="popup-element bottom-right"
+               *ngIf="isCollectionAddDropdownOpen">
+            <div class="dropdown-menu">
+              <div class="dropdown-menu-content">
+                <form class="form-field"
+                      (ngSubmit)="createCollection()"
+                      style="width: 10rem; margin-bottom: 0;">
+                  <label for="">Collection Title</label>
+                  <div class="form-control-with-icon">
+                    <input class="form-control"
+                           required
+                           [formControl]="collectionNameTitle">
+                    <button style="padding: 0; justify-content: center; width: 2rem; display: flex; align-items: center;"
+                            type="submit"
+                            class="button secondary succes form-control-icon">
+                      <i-bs name="check-circle-fill"></i-bs>
+                    </button>
+                  </div>
+                  <div class="helper danger"
+                       *ngIf="collectionNameTitle.invalid && collectionNameTitle.touched && collectionNameTitle.dirty">
+                    Please provide a title</div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="items">
@@ -108,7 +155,7 @@
         </span>
       </div>
       <div class="item selectable"
-           *ngFor="let collection of collectionService.collections | async">
+           *ngFor="let collection of (collectionService.collections | async)">
         <div class="content"
              (click)="collectionService.openCollection(collection)"
              (onDroppableComplete)="collectionService.addImageToCollection($event.data, collection)"

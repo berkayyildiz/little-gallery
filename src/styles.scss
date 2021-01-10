@@ -116,14 +116,23 @@ body {
   }
 
   &-title {
-    font-weight: 600;
-    padding: 0.25rem 0.5rem;
-    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0.25rem;
+    font-weight: 500;
+    white-space: break-spaces;
   }
 
   &-split {
     border-bottom-width: 1px;
     margin: calc(0.25rem - 1px) 0;
+  }
+
+  &-content {
+    margin: 0.25rem 0;
   }
 
   &-item {
@@ -252,5 +261,104 @@ body {
       transform: translateY(-50%);
       margin: 0 var(--popup-base-margin) 0 0;
     }
+  }
+}
+
+.form-control {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none; //new ios uses this btw
+  display: block;
+  width: 100%;
+  padding: 0.375em 0.75em;
+  font-weight: 400;
+  line-height: 1.5;
+
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid var(--border-color); //was #ced4da
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  text-align: left;
+
+  font-size: 0.9rem;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &.invalid,
+  &.ng-invalid.ng-touched {
+    border-color: var(--bg-danger);
+  }
+
+  &.no-horizontal-padding {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.form-field {
+  max-width: 100%;
+
+  &:not(:empty) {
+    margin-bottom: 0.75rem;
+  }
+
+  &.max-content {
+    max-width: max-content;
+  }
+
+  &.justify-end {
+    justify-content: flex-end;
+  }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; //for centering buttons
+
+  label {
+    margin-bottom: 0.25rem;
+    display: inline-block;
+  }
+
+  .helper {
+    margin-top: 2px;
+    font-size: 0.75rem;
+
+    &.danger {
+      color: var(--bg-danger);
+    }
+  }
+}
+
+.form-control-with-icon {
+  display: flex;
+  position: relative;
+  width: 100%;
+  .form-control {
+    padding-right: 3em;
+  }
+  .form-control-icon {
+    height: 100%;
+    fill: currentColor;
+
+    position: absolute;
+    right: 0;
+  }
+
+  //not actively used
+  .form-control-icon-top {
+    width: 1.5em;
+    fill: currentColor;
+
+    position: absolute;
+    top: calc(0.5em - 1px);
+    right: 0.75em;
   }
 }

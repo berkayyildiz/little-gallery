@@ -85,6 +85,14 @@ export class CollectionService {
 
   }
 
+  deleteCollection(collection?: Collection) {
+    collection = this.selectedCollection.value;
+    this.selectedCollection.next(null);
+    console.log(collection);
+    this.collections.next(this.collections.value.filter(c => c.id != collection.id));
+    window.localStorage.setItem("collections", JSON.stringify(this.collections.value));
+  }
+
   selectedCollection = new BehaviorSubject<Collection>(null);
 
 

@@ -91,6 +91,21 @@
         }
       }
 
+      &.on-selection {
+        // &.item {
+        //    &:after {
+        //     content: "";
+        //     position: absolute;
+        //     bottom: 0.5rem;
+        //     right: 0.5rem;
+        //     width: 1.75rem;
+        //     background-size: cover;
+        //     height: 1.75rem;
+        //     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cscript xmlns=''/%3E%3Ctitle%3Eooui-checkbox-selected%3C/title%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Crect stroke='%2336C' fill='%2336C' x='3.5' y='3.5' width='13' height='13' rx='2'/%3E%3Cpath stroke='%23FFF' stroke-linecap='round' stroke-linejoin='round' d='M6 10.157L8.572 13 14 7'/%3E%3C/g%3E%3C/svg%3E");
+        //   }
+        // }
+      }
+
       .item {
         position: relative;
         &.selected {
