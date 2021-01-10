@@ -2,16 +2,75 @@
   <div class="gallery">
     <div class="section-header">
       <h2 class="title">
+        <i-bs [name]="(collectionService.selectedCollection | async) ? 'image' : 'images'"></i-bs>
         {{(collectionService.selectedCollection | async)?.title || "All Images"}}
       </h2>
       <div class="options">
-        <button class="button">Select</button>
-        <button class="button danger">Delete Selected</button>
+        <button class="button"
+                *ngIf="!isSelectionActive"
+                (click)="startSelection()">Select</button>
+        <button class="button"
+                *ngIf="isSelectionActive"
+                (click)="clearSelection(); selectionArea.disable(); isSelectionActive = false">
+          Done
+        </button>
+        <span class="divider"></span>
+        <div class="popup"
+             (clickOutside)="isOptionsOpen = false"
+             *ngIf="!isSelectionActive">
+          <div class="popup-parent">
+            <button class="button secondary"
+                    [class.active]="isOptionsOpen"
+                    (click)="isOptionsOpen = !isOptionsOpen">
+              <i-bs name="three-dots"></i-bs>
+            </button>
+          </div>
+          <div class="popup-element bottom-right"
+               *ngIf="isOptionsOpen">
+            <div class="dropdown-menu">
+              <div class="dropdown-menu-item">
+                Edit Name
+              </div>
+              <div class="dropdown-menu-split"></div>
+              <div class="dropdown-menu-item danger">
+                Delete Collection
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="popup"
+             (clickOutside)="isAddToCollectionDropdownOpen = false">
+          <div class="popup-parent">
+            <button class="button secondary"
+                    [class.active]="isAddToCollectionDropdownOpen"
+                    (click)="isAddToCollectionDropdownOpen = !isAddToCollectionDropdownOpen"
+                    *ngIf="isSelectionActive">
+              <i-bs name="folder-symlink"></i-bs>
+            </button>
+          </div>
+          <div class="popup-element bottom-right"
+               *ngIf="isAddToCollectionDropdownOpen">
+            <div class="dropdown-menu">
+              <div class="dropdown-menu-title">
+                Select Collection
+              </div>
+              <div class="dropdown-menu-split"></div>
+              <div class="dropdown-menu-item"
+                   *ngFor="let collection of collectionService.collections | async">
+                {{collection.title}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="button danger"
+                *ngIf="isSelectionActive">
+          <i-bs name="trash"></i-bs>
+        </button>
       </div>
     </div>
     <div class="items"
          (appDropZone)="collectionService.addNewImages($event)">
-      <div class="item"
+      <div class="item selectable"
            [appDraggable]="{data: image, zones: collectionService.collections | async | droppableCollections: image}"
            *ngFor="let image of collectionService.galleryImages | async">
         <div class="image">
@@ -24,12 +83,12 @@
   <div class="collections">
     <div class="section-header">
       <h2 class="title">
-        Collections
+        <i-bs name="folder"></i-bs> Collections
       </h2>
       <div class="options">
         <button class="button"
                 (click)="collectionService.addNewCollection()">
-          New
+          <i-bs name="folder-plus"></i-bs>
         </button>
       </div>
     </div>
@@ -44,9 +103,11 @@
                  alt="">
           </div>
         </div>
-        <span class="title">All Images</span>
+        <span class="title">
+          All Images
+        </span>
       </div>
-      <div class="item"
+      <div class="item selectable"
            *ngFor="let collection of collectionService.collections | async">
         <div class="content"
              (click)="collectionService.openCollection(collection)"
@@ -71,6 +132,6 @@
 
 
 <!-- This placed becouse z index issues -->
-<div id="selectablejs-select-area-container"
+<div class="selection-area"
      style="position: fixed;
 z-index: 10000;"></div>

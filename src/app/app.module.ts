@@ -9,6 +9,9 @@ import { DroppableCollectionsPipe } from './pipes/droppable-collections.pipe';
 import { ContenteditableModule } from '@ng-stack/contenteditable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropZoneDirective } from './directives/drop-zone.directive';
+import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
+import { allIcons } from 'ngx-bootstrap-icons';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,9 @@ import { DropZoneDirective } from './directives/drop-zone.directive';
     BrowserModule,
     ContenteditableModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxBootstrapIconsModule.pick(allIcons),
+    ClickOutsideModule
   ],
   providers: [],
   bootstrap: [AppComponent]

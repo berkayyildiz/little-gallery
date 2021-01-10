@@ -7,10 +7,14 @@
   --bg-danger-dark: rgb(210, 31, 31);
   --bg-primary: rgb(45, 115, 237);
   --bg-primary-dark: rgb(31, 88, 210);
-  --bg-secondary: rgb(244, 241, 234);
-  --bg-secondary-dark: rgb(235, 232, 226);
+  --bg-secondary: hsl(210, 38%, 95%);
+  --bg-secondary-dark: hsl(214, 32%, 91%);
 
+  --c-1: hsla(0, 0%, 0%, 0.1);
+  --c-06: hsla(0, 0%, 0%, 0.06);
   --active-shadow: 0 0 0 0.2rem rgba(5, 100, 216, 0.496);
+  --shadow-sm: 0 1px 2px 0 var(--c-1);
+  --shadow-md: 0 4px 6px -1px var(--c-1), 0 2px 4px -1px var(--c-06);
 }
 
 @font-face {
@@ -24,7 +28,7 @@ body {
   font-family: "Assistant";
 }
 
-.selectionjs-selection-area {
+.selection-area {
   background: rgba(46, 115, 252, 0.11);
   border: 2px solid rgba(98, 155, 255, 0.81);
   border-radius: 0.1em;
@@ -44,8 +48,11 @@ body {
 }
 
 .button {
-  padding: 0.25rem 0.5rem;
+  padding: 0.325rem 0.65rem;
   border-radius: 0.25rem;
+
+  border-width: 1px;
+  box-shadow: va(--shadow-sm);
 
   --bg-color: var(--bg-primary);
   --text-color: white;
@@ -71,6 +78,10 @@ body {
     &:hover {
       --bg-color: var(--bg-secondary-dark);
     }
+
+    &.active {
+      --bg-color: var(--bg-secondary-dark);
+    }
   }
 
   &:focus {
@@ -78,9 +89,168 @@ body {
   }
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1rem;
+    height: 1rem;
   }
 
   cursor: pointer;
+}
+
+.dropdown-menu {
+  background-color: white;
+  border-radius: 0.25rem;
+  border-width: 1px;
+  padding: 0.5rem 0.5rem;
+  box-shadow: var(--shadow-md);
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  white-space: nowrap;
+
+  &.scroll {
+    max-height: 16rem;
+    overflow-y: auto;
+  }
+
+  &-title {
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    text-align: left;
+  }
+
+  &-split {
+    border-bottom-width: 1px;
+    margin: calc(0.25rem - 1px) 0;
+  }
+
+  &-item {
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &.danger {
+      color: var(--bg-danger);
+    }
+
+    &:hover {
+      background-color: var(--bg-secondary);
+    }
+    &:focus {
+      outline: none;
+      box-shadow: var(--active-shadow);
+    }
+  }
+}
+
+.popup {
+  position: relative;
+  &.wrap-parent {
+    width: max-content;
+    height: max-content;
+  }
+  &.full-width {
+    width: 100%;
+  }
+  &.activate-on-hover {
+    .popup-element {
+      display: none;
+    }
+    &:hover {
+      .popup-element {
+        display: unset;
+      }
+    }
+  }
+
+  &.activate-on-focus {
+    .popup-element {
+      display: none;
+    }
+    &:focus-within {
+      .popup-element {
+        display: unset;
+      }
+    }
+  }
+
+  &-parent {
+  }
+  &-element {
+    position: absolute;
+
+    z-index: 100;
+
+    --popup-base-margin: 0.75rem;
+
+    //bottom-left standart
+    top: 100%;
+    left: 0;
+    right: auto;
+    bottom: auto;
+    margin: var(--popup-base-margin) 0 0 0;
+
+    &.top-left {
+      top: auto;
+      left: 0;
+      right: auto;
+      bottom: 100%;
+      margin: 0 0 var(--popup-base-margin) 0;
+    }
+
+    &.top-right {
+      top: auto;
+      left: auto;
+      right: 0;
+      bottom: 100%;
+      margin: 0 0 var(--popup-base-margin) 0;
+    }
+
+    &.bottom-left {
+      top: 100%;
+      left: 0;
+      right: auto;
+      bottom: auto;
+      margin: var(--popup-base-margin) 0 0 0;
+    }
+
+    &.bottom-center {
+      top: 100%;
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      margin: var(--popup-base-margin) 0 0 0;
+      transform: translateX(-50%);
+    }
+
+    &.bottom-right {
+      top: 100%;
+      left: auto;
+      right: 0;
+      bottom: auto;
+      margin: var(--popup-base-margin) 0 0 0;
+    }
+
+    &.right-center {
+      top: 50%;
+      left: 100%;
+      right: auto;
+      bottom: auto;
+      transform: translateY(-50%);
+      margin: 0 0 0 var(--popup-base-margin);
+    }
+
+    &.left-center {
+      top: 50%;
+      right: 100%;
+      left: auto;
+      bottom: auto;
+      transform: translateY(-50%);
+      margin: 0 var(--popup-base-margin) 0 0;
+    }
+  }
 }
