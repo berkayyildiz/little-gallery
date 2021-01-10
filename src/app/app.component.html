@@ -16,7 +16,7 @@
       </h2>
       <div class="options">
         <button class="button"
-                *ngIf="!isSelectionActive"
+                *ngIf="!isSelectionActive && (collectionService.galleryImages |async)?.length"
                 (click)="startSelection()">Select</button>
         <button class="button"
                 *ngIf="isSelectionActive"
@@ -24,7 +24,7 @@
           Done
         </button>
         <span class="divider"
-              *ngIf="(collectionService.selectedCollection | async) || isSelectionActive"></span>
+              *ngIf="((collectionService.selectedCollection | async) || isSelectionActive) && (collectionService.galleryImages |async)?.length"></span>
         <div class="popup"
              (clickOutside)="galleryDropdownContent == 'menu' ? galleryDropdownContent = null : null"
              *ngIf="!isSelectionActive && (collectionService.selectedCollection | async)">

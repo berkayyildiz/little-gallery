@@ -376,3 +376,127 @@ body {
     right: 0.75em;
   }
 }
+
+[contenteditable="true"] {
+  cursor: text;
+  &:focus {
+    outline: none;
+  }
+
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.info-box {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.5rem;
+  z-index: 100;
+
+  display: grid;
+  grid-auto-flow: row;
+  gap: 0.5rem;
+
+  &-dialog {
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    &.red,
+    &.danger {
+      color: var(--red-7);
+      background: var(--red-2);
+    }
+    &.green,
+    &.success {
+      color: var(--green-7);
+      background: var(--green-2);
+    }
+  }
+}
+
+// General
+
+.image {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  overflow: hidden;
+
+  user-select: none;
+  pointer-events: none;
+
+  background-color: var(--bg-base);
+
+  img {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.selected {
+    img {
+      filter: brightness(80%);
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      width: 1.75rem;
+      background-size: cover;
+      height: 1.75rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cscript xmlns=''/%3E%3Ctitle%3Eooui-checkbox-selected%3C/title%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Crect stroke='%2336C' fill='%2336C' x='3.5' y='3.5' width='13' height='13' rx='2'/%3E%3Cpath stroke='%23FFF' stroke-linecap='round' stroke-linejoin='round' d='M6 10.157L8.572 13 14 7'/%3E%3C/g%3E%3C/svg%3E");
+    }
+  }
+}
+
+.section-header {
+  padding: 0.5rem 1rem;
+  border-bottom-width: 1px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  max-width: 100%;
+  // overflow: hidden;
+
+  height: 2.5rem;
+
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    font-size: 1.1rem;
+    display: grid;
+    align-items: center;
+    grid-auto-flow: column;
+    gap: 0.5rem;
+  }
+
+  .options {
+    flex-shrink: 0;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 0.5rem;
+    align-items: center;
+
+    .divider {
+      border-right-width: 1px;
+      height: 100%;
+    }
+  }
+}
