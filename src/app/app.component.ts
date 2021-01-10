@@ -1,12 +1,24 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import SelectionArea from '@simonwep/selection-js';
 import { CollectionService } from './services/collection.service';
+import { DialogService } from './services/dialog.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    trigger('insertRemoveTrigger', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('1000ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('1000ms', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class AppComponent implements OnInit {
 
@@ -14,18 +26,19 @@ export class AppComponent implements OnInit {
 
   isSelectionActive = false;
 
-  isOptionsOpen = false;
-
   isAddToCollectionDropdownOpen = false;
 
   isCollectionAddDropdownOpen = false;
 
   isDeletingCollection = false;
 
-  collectionNameTitle = new FormControl();
+  galleryDropdownContent: "delete" | "edit-title" | "menu" = null;
+
+
 
   constructor(
-    public readonly collectionService: CollectionService
+    public readonly collectionService: CollectionService,
+    public readonly dialogService: DialogService
   ) {
 
   }
@@ -50,19 +63,9 @@ export class AppComponent implements OnInit {
 
   }
 
-  createCollection() {
-
-
-    if (this.collectionNameTitle.valid) {
-      this.collectionService.addNewCollection(this.collectionNameTitle.value);
-      this.collectionNameTitle.setValue("");
-      this.isAddToCollectionDropdownOpen = false;
-
-    } else {
-      this.collectionNameTitle.markAsDirty();
-      this.collectionNameTitle.markAsTouched();
-    }
-
+  createCollection(title: string) {
+    this.collectionService.addNewCollection(title);
+    this.isCollectionAddDropdownOpen = false;
   }
 
 

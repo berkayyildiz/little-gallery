@@ -1,0 +1,18 @@
+<form class="form-field"
+      (ngSubmit)="onSubmit()"
+      style="width: 13rem; margin-bottom: 0;">
+  <label for="">Collection Title</label>
+  <div class="form-group">
+    <input class="form-control"
+           required
+           [formControl]="collectionNameTitle">
+    <button style="padding: 0; justify-content: center; width: 2rem; display: flex; align-items: center;"
+            type="submit"
+            class="button secondary succes form-control-icon">
+      <i-bs name="check-circle-fill"></i-bs>
+    </button>
+  </div>
+  <div class="helper danger"
+       *ngIf="collectionNameTitle.invalid && collectionNameTitle.touched && collectionNameTitle.dirty">
+    Please provide a title</div>
+</form>

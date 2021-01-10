@@ -15,6 +15,18 @@
   --active-shadow: 0 0 0 0.2rem rgba(5, 100, 216, 0.496);
   --shadow-sm: 0 1px 2px 0 var(--c-1);
   --shadow-md: 0 4px 6px -1px var(--c-1), 0 2px 4px -1px var(--c-06);
+
+  --red-2: hsl(0, 95%, 92%);
+  --red-3: hsl(0, 97%, 85%);
+  --red-6: hsl(0, 76%, 57%);
+  --red-7: hsl(0, 61%, 48%);
+  --red-8: hsl(0, 56%, 39%);
+
+  --green-2: hsl(139, 73%, 87%);
+  --green-3: hsl(141, 60%, 75%);
+  --green-6: hsl(148, 48%, 43%);
+  --green-7: hsl(150, 48%, 35%);
+  --green-8: hsl(152, 45%, 28%);
 }
 
 @font-face {
@@ -102,6 +114,8 @@ body {
   border-width: 1px;
   padding: 0.5rem 0.5rem;
   box-shadow: var(--shadow-md);
+
+  min-width: 10rem;
 
   overflow: hidden;
 

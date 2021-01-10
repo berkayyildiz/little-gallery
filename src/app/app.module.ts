@@ -12,6 +12,7 @@ import { DropZoneDirective } from './directives/drop-zone.directive';
 import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
 import { allIcons } from 'ngx-bootstrap-icons';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { CollectionTitleFormComponent } from './components/collection-title-form/collection-title-form.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ClickOutsideModule } from 'ng-click-outside';
     DraggableDirective,
     DroppableDirective,
     DroppableCollectionsPipe,
-    DropZoneDirective
+    DropZoneDirective,
+    CollectionTitleFormComponent
   ],
   imports: [
     BrowserModule,

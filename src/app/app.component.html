@@ -1,5 +1,13 @@
 <div class="container">
   <div class="gallery">
+    <!-- Gallery Info -->
+    <div class="info-box">
+      <div class="info-box-dialog"
+           [ngClass]="dialog.color"
+           *ngFor="let dialog of dialogService.dialogs | async">
+        {{dialog.body}}
+      </div>
+    </div>
     <!-- Gallery Header -->
     <div class="section-header">
       <h2 class="title">
@@ -15,50 +23,55 @@
                 (click)="clearSelection(); selectionArea.disable(); isSelectionActive = false">
           Done
         </button>
-        <span class="divider"></span>
+        <span class="divider"
+              *ngIf="(collectionService.selectedCollection | async) || isSelectionActive"></span>
         <div class="popup"
-             (clickOutside)="isDeletingCollection ? null : isOptionsOpen = false"
-             *ngIf="!isSelectionActive">
+             (clickOutside)="galleryDropdownContent == 'menu' ? galleryDropdownContent = null : null"
+             *ngIf="!isSelectionActive && (collectionService.selectedCollection | async)">
           <div class="popup-parent">
             <button class="button secondary"
-                    [class.active]="isOptionsOpen"
-                    (click)="isOptionsOpen = !isOptionsOpen">
+                    [class.active]="galleryDropdownContent"
+                    (click)="galleryDropdownContent ? galleryDropdownContent = null : galleryDropdownContent = 'menu'">
               <i-bs name="three-dots"></i-bs>
             </button>
           </div>
           <div class="popup-element bottom-right"
-               *ngIf="isOptionsOpen">
-            <div class="dropdown-menu"
-                 style="width: 10rem;">
-              <ng-container *ngIf="!isDeletingCollection">
-                <div class="dropdown-menu-item">
-                  Edit Name
+               *ngIf="galleryDropdownContent">
+            <div class="dropdown-menu">
+              <ng-container *ngIf="galleryDropdownContent == 'menu'">
+                <div class="dropdown-menu-item"
+                     (click)="galleryDropdownContent = 'edit-title'">
+                  Edit Title
                 </div>
                 <div class="dropdown-menu-split"></div>
                 <div class="dropdown-menu-item danger"
-                     (click)="isDeletingCollection = true">
+                     (click)="galleryDropdownContent = 'delete'">
                   Delete Collection
                 </div>
               </ng-container>
-              <ng-container *ngIf="isDeletingCollection">
+              <app-collection-title-form *ngIf="galleryDropdownContent == 'edit-title'"
+                                         (onValidSubmit)="collectionService.editSelectedCollectionTitle($event); galleryDropdownContent = null"
+                                         [title]="(collectionService.selectedCollection | async).title">
+              </app-collection-title-form>
+              <ng-container *ngIf="galleryDropdownContent == 'delete'">
                 <div class="dropdown-menu-title">Are you sure to delete this collection?</div>
                 <div class="dropdown-menu-split"></div>
                 <div class="dropdown-menu-item danger"
-                     (click)="collectionService.deleteCollection(); isOptionsOpen = false; isDeletingCollection = false">
+                     (click)="collectionService.deleteCollection(); galleryDropdownContent = null">
                   Delete</div>
                 <div class="dropdown-menu-item"
-                     (click)="isDeletingCollection = false">Cancel</div>
+                     (click)="galleryDropdownContent = 'menu'">Cancel</div>
               </ng-container>
             </div>
           </div>
         </div>
         <div class="popup"
+             *ngIf="isSelectionActive"
              (clickOutside)="isAddToCollectionDropdownOpen = false">
           <div class="popup-parent">
             <button class="button secondary"
                     [class.active]="isAddToCollectionDropdownOpen"
-                    (click)="isAddToCollectionDropdownOpen = !isAddToCollectionDropdownOpen"
-                    *ngIf="isSelectionActive">
+                    (click)="isAddToCollectionDropdownOpen = !isAddToCollectionDropdownOpen">
               <i-bs name="folder-symlink"></i-bs>
             </button>
           </div>
@@ -115,24 +128,8 @@
                *ngIf="isCollectionAddDropdownOpen">
             <div class="dropdown-menu">
               <div class="dropdown-menu-content">
-                <form class="form-field"
-                      (ngSubmit)="createCollection()"
-                      style="width: 10rem; margin-bottom: 0;">
-                  <label for="">Collection Title</label>
-                  <div class="form-control-with-icon">
-                    <input class="form-control"
-                           required
-                           [formControl]="collectionNameTitle">
-                    <button style="padding: 0; justify-content: center; width: 2rem; display: flex; align-items: center;"
-                            type="submit"
-                            class="button secondary succes form-control-icon">
-                      <i-bs name="check-circle-fill"></i-bs>
-                    </button>
-                  </div>
-                  <div class="helper danger"
-                       *ngIf="collectionNameTitle.invalid && collectionNameTitle.touched && collectionNameTitle.dirty">
-                    Please provide a title</div>
-                </form>
+                <app-collection-title-form (onValidSubmit)="createCollection($event)">
+                </app-collection-title-form>
               </div>
             </div>
           </div>
@@ -167,18 +164,8 @@
                  alt="">
           </div>
         </div>
-        <span [contenteditable]="true"
-              (ngModelChange)="collectionService.editSelectedCollectionTitle()"
-              (blur)="collectionService.editSelectedCollectionTitle()"
-              [(ngModel)]="collection.title"
-              class="title">{{collection.title}}</span>
+        <span class="title">{{collection.title}}</span>
       </div>
     </div>
   </div>
 </div>
-
-
-<!-- This placed becouse z index issues -->
-<div class="selection-area"
-     style="position: fixed;
-z-index: 10000;"></div>
